@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-  <h2>Menu</h2>
-  <router-outlet></router-outlet>
-  `,
-  styleUrls: []
+    <div class="container-fluid">
+      <div class="row">MENU</div>
+      <router-outlet></router-outlet>
+      <div class="row">Footer</div>
+    </div>
+  `
 })
 export class AppComponent {
-  title = 'Photos';
 }

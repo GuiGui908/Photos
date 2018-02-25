@@ -1,0 +1,11 @@
+.login {
+    background: cyan;
+    padding: 30px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.submitButton {
+    margin-top: 10px;
+    width: 180px;
+}

@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-list',
+  selector: 'app-not-found',
   template: `
-    <p>
-      list works!
-    </p>
+    <h1>404 : La page demandée n'existe pas</h1>
   `,
   styles: []
 })
-export class ListComponent implements OnInit {
+export class NotFoundComponent implements OnInit {
 
   constructor() { }
 
