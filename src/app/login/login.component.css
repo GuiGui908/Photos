@@ -1,11 +1,17 @@
+h1 {
+    margin-bottom: 15px;
+}
+
 .login {
-    background: cyan;
-    padding: 30px;
-    border: 1px solid black;
-    border-radius: 10px;
+    background-color: #6CB6FF;
 }
 
 .submitButton {
     margin-top: 10px;
     width: 180px;
+}
+
+.errorMessage {
+    margin-top: 15px;
+    color: red;
 }

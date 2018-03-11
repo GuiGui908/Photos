@@ -17,7 +17,7 @@ export class AlbumComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
-    console.log('Affiche album ', this.route.snapshot.paramMap.get('albumName'));
+    console.log('Affiche 1 album ', this.route.snapshot.paramMap.get('albumName'));
   }
 
 }
