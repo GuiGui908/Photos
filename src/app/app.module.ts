@@ -14,12 +14,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { MatInputModule, MatButtonModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NotFoundComponent } from './not-found/not-found.component';
-import { PhotoComponent } from './albums/photo/photo.component';
 import { AuthGuard } from './login/auth.guard';
 import { LoginService } from './login/login.service';
 import { AlbumService } from './albums/album.service';
 import { TokenInterceptor } from './login/token.interceptor';
 import { AutrePageComponent } from './autre-page/autre-page.component';
+import { TitleComponent } from './albums/title/title.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,8 @@ import { AutrePageComponent } from './autre-page/autre-page.component';
     AlbumsComponent,
     AlbumComponent,
     NotFoundComponent,
-    PhotoComponent,
-    AutrePageComponent
+    AutrePageComponent,
+    TitleComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,6 +43,7 @@ import { AutrePageComponent } from './autre-page/autre-page.component';
     MatInputModule,
     MatButtonModule,
     BrowserAnimationsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [AuthGuard, LoginService, AlbumService,
     {

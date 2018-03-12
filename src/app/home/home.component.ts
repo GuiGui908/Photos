@@ -5,31 +5,44 @@ import { LoginService } from '../login/login.service';
 @Component({
   selector: 'app-home',
   template: `
-    <p>
+    <div class="topMenu">
       home works!
-      <button (click)="navigate('albums')">Albums</button>
-      <button (click)="navigate('autre')">Autre</button>
-      <button (click)="logout()">Logout</button>
-    </p>
+      <a [routerLink]="['albums']">Albums</a>
+      <a [routerLink]="['autre']">Autre</a>
+      <a href="#" (click)="logout()">Logout</a>
+    </div>
+    <div class="content col-lg-8 col-lg-offset-2">
+      <router-outlet></router-outlet>
+    </div>
   `,
-  styles: []
+  styles: [`
+    .topMenu {
+      width: 100%;
+      border-bottom: 10px;
+      position: fixed;
+      z-index: 1;
+      background-color: white;
+    }
+    .content {
+      margin-top: 21px;
+    }
+    `]
 })
 export class HomeComponent implements OnInit {
 
   constructor(
-    private route: Router,
-    private loginService: LoginService) { }
-
-  ngOnInit() {
+    private router: Router,
+    private loginService: LoginService) {
+    console.log('--------- Create HomeComponent');
   }
 
-  navigate(route: string) {
-    this.route.navigate([`/${route}`]);
+  ngOnInit() {
+    console.log('----- Init HomeComponent');
   }
 
   logout() {
     this.loginService.logout();
-    this.navigate('login');
+    this.router.navigate(['login']);
   }
 
 }

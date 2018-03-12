@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import * as shajs from 'sha.js';
 import { Router } from '@angular/router';
@@ -20,7 +20,7 @@ import { LoginService } from './login.service';
           </mat-form-field>
           <br/>
           <mat-form-field>
-            <input type="password" matInput placeholder="Mot de passe" formControlName="password" />
+            <input #pwd type="password" matInput placeholder="Mot de passe" formControlName="password" />
             <mat-error *ngIf="password.hasError('required')">
               <strong>Obligatoire</strong>
             </mat-error>
@@ -43,19 +43,25 @@ export class LoginComponent implements OnInit {
   password: FormControl;
   username: FormControl;
 
+  @ViewChild('pwd') passwordElem: ElementRef;
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private loginService: LoginService
-  ) { }
+  ) {
+    console.log('--------- Create LoginComponent');
+  }
 
   ngOnInit() {
+    console.log('----- Init LoginComponent');
     this.password = new FormControl('', Validators.required);
     this.username = new FormControl('anonyme', Validators.required);
     this.form = this.fb.group({
       password: this.password,
       username: this.username
     });
+    this.passwordElem.nativeElement.focus();
   }
 
   onSubmit() {
