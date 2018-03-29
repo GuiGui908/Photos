@@ -12,3 +12,8 @@ body {
     border: 1px solid black;
     border-radius: 10px;
 }
+
+.center {
+    text-align: center;
+    margin: 0 auto;
+}

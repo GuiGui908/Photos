@@ -6,7 +6,6 @@ import { LoginService } from '../login/login.service';
   selector: 'app-home',
   template: `
     <div class="topMenu">
-      home works!
       <a [routerLink]="['albums']">Albums</a>
       <a [routerLink]="['autre']">Autre</a>
       <a href="#" (click)="logout()">Logout</a>

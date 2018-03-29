@@ -8,8 +8,12 @@ import { Subscription } from 'rxjs/Subscription';
   template: `
     <app-title [title]="'Les albums'" [backRoute]="'back'"></app-title>
     <div class="content">
+      <div *ngIf="albums == null" style="padding-top: 20px;">
+        <mat-progress-spinner class="center" diameter="100" mode="indeterminate"></mat-progress-spinner>
+      </div>
+      <div *ngIf="albums && albums.length === 0">Aucun album !</div>
       <div *ngFor="let alb of albums" class="albumButton">
-        <a [routerLink]="[alb]" mat-raised-button color="primary">{{alb}}<span class="badge">??</span></a>
+        <a [routerLink]="[alb]" mat-raised-button color="primary" (click)="resetPhotoList()">{{alb}}<span class="badge">??</span></a>
       </div>
     </div>
   `,
@@ -30,17 +34,20 @@ export class AlbumsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('----- Init AlbumsComponent');
-    this.albumService.findAlbumList();
     this.subscription = this.albumService.albumsState.subscribe((albums: string[]) => {
-      console.log('subjet : new albumList');
       this.albums = albums;
     });
+    this.albumService.findAlbumList();
   }
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  resetPhotoList() {
+    this.albumService.resetPhotoList();
   }
 
 }

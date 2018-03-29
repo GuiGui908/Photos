@@ -38,7 +38,7 @@ export class LoginService {
         const token = this.getToken();
         if (token) {
             // return a boolean reflecting whether or not the token is expired
-            console.log('JWT:', jwtDecode(token));
+            console.log('isAuthenticated. JWT=', jwtDecode(token));
             return jwtDecode(token);
         }
         return false;

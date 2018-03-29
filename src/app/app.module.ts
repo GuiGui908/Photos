@@ -21,6 +21,8 @@ import { TokenInterceptor } from './login/token.interceptor';
 import { AutrePageComponent } from './autre-page/autre-page.component';
 import { TitleComponent } from './albums/title/title.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { PhotoPipe } from './albums/photo/photo.pipe';
+import { PhotoComponent } from './albums/photo/photo.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     NotFoundComponent,
     AutrePageComponent,
     TitleComponent,
+    PhotoComponent,
+    PhotoPipe,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +49,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     BrowserAnimationsModule,
     MatProgressSpinnerModule,
   ],
-  providers: [AuthGuard, LoginService, AlbumService,
+  providers: [AuthGuard, LoginService, AlbumService, PhotoPipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
