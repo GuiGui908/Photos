@@ -9,6 +9,7 @@
       "outDir": "dist",
       "assets": [
         "assets",
+        "errorPages",
         "favicon.ico"
       ],
       "index": "index.html",

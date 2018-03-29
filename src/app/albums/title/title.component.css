@@ -1,0 +1,30 @@
+.back {
+    margin-right: 30px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.title {
+    position: fixed;
+    top: 0;
+    overflow: hidden;
+    width: 66%;
+    border-bottom: 2px solid darkblue;
+    margin-top: 18px;
+    margin-bottom: 15px;
+    z-index: 1;
+    background-color: white;
+}
+
+.title h1 {
+    color: blue;
+    margin: 0;
+}
+
+.title h1 .badge {
+    transform: translate(20px, -2px);
+}
+
+.badge {
+    font-size: 0.6em;
+}

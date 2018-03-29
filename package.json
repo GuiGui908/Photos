@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build --prod",
+    "build": "ng build --prod --build-optimizer --base-href=/ng/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -23,9 +23,12 @@
     "@angular/platform-browser": "^5.2.0",
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
-    "bootstrap": "^4.0.0",
+    "@types/jwt-decode": "^2.2.1",
+    "angular2-jwt": "^0.2.3",
+    "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
+    "sha1": "^1.1.1",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
