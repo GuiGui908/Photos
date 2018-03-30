@@ -42,10 +42,16 @@ public class ImageReduceService {
 		File maxFolder = new File(albumFolder, SIZE.MAX.toString());
 		File originalFolder = new File(albumFolder, SIZE.ORIGINAL.toString());
 
-		if (!albumFolder.isDirectory() || !minFolder.isDirectory() || !maxFolder.isDirectory()
-				|| !originalFolder.isDirectory()) {
+		if (!albumFolder.isDirectory() || minFolder.isFile() || maxFolder.isFile() || !originalFolder.isDirectory()) {
 			throw new PhotoServicesException("Invalid folder hierarchy. It should be :\n" + "/storage/" + albumName
-					+ "/ORIGINAL\n" + "/storage/" + albumName + "/MIN\n" + "/storage/" + albumName + "/MAX\n");
+					+ "/ORIGINAL/\n" + "/storage/" + albumName + "/MIN/\n" + "/storage/" + albumName + "/MAX/\n");
+		}
+
+		if (!minFolder.exists()) {
+			minFolder.mkdir();
+		}
+		if (!maxFolder.exists()) {
+			maxFolder.mkdir();
 		}
 
 		// Pour chaque fichier du dosssier original

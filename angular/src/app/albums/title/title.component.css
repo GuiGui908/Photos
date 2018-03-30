@@ -7,8 +7,6 @@
 .title {
     position: fixed;
     top: 0;
-    overflow: hidden;
-    width: 66%;
     border-bottom: 2px solid darkblue;
     margin-top: 18px;
     margin-bottom: 15px;

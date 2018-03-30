@@ -4,7 +4,7 @@ import { SIZE } from '../album.service';
 @Component({
   selector: 'app-photo',
   template: `
-    <img [hidden]="loading" class="image" [src]="(photoName | photo :albumName :sizeMin) | async" (load)="photoIsLoaded()" />
+    <img [hidden]="loading" class="image" [src]="(photoName | photo :albumName :size) | async" (load)="photoIsLoaded()" />
     <mat-progress-spinner *ngIf="loading" class="image center" [diameter]="spinnerDiameter" mode="indeterminate"></mat-progress-spinner>
   `,
   styles: [`
@@ -19,7 +19,6 @@ export class PhotoComponent implements OnInit {
   @Input() albumName: string;
   @Input() size: SIZE;
   spinnerDiameter: number;
-  sizeMin = SIZE.MIN;
   loading = true;
 
   constructor() {

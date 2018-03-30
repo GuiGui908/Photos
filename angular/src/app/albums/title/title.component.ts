@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-title',
   template: `
-    <div class="title">
+    <div class="title col-lg-8 col-sm-11 col-xs-12">
       <h1>
         <i class="material-icons back" (click)="back()">arrow_back</i>
         {{title}}

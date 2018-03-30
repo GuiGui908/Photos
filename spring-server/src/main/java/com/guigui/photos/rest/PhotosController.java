@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,6 +33,7 @@ import com.guigui.photos.service.SIZE;
  * @author GuiGui
  *
  */
+@CrossOrigin(origins = "http://lalainaetguillaume.zapto.org/ng")
 @RestController
 public class PhotosController {
 
@@ -39,8 +41,7 @@ public class PhotosController {
 	private ImageReduceService imageReduce;
 
 	@RequestMapping(value = "/allAlbums", method = RequestMethod.GET)
-	public List<String> allAlbums() throws InterruptedException {
-		Thread.sleep(2000);
+	public List<String> allAlbums() {
 		List<String> fileNames = getAlbumNames();
 
 		// Affiche les noms trouvés
@@ -67,10 +68,7 @@ public class PhotosController {
 	}
 
 	@RequestMapping(value = "/album/{albumName}", method = RequestMethod.GET)
-	public ResponseEntity<List<String>> albumPhoto(@PathVariable(value = "albumName") String albumName)
-			throws InterruptedException {
-		Thread.sleep(2000);
-
+	public ResponseEntity<List<String>> albumPhoto(@PathVariable(value = "albumName") String albumName) {
 		// Vérifie que l'album existe
 		if (!getAlbumNames().contains(albumName)) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
@@ -86,10 +84,7 @@ public class PhotosController {
 
 	@RequestMapping(value = "/album/{albumName}/photo/{photoName}/{size}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<byte[]> photo(@PathVariable(value = "albumName") String albumName,
-			@PathVariable(value = "photoName") String photoName, @PathVariable(value = "size") SIZE size)
-			throws InterruptedException {
-		Thread.sleep(1000);
-
+			@PathVariable(value = "photoName") String photoName, @PathVariable(value = "size") SIZE size) {
 		// Vérifie que l'album et la photo existent
 		if (getAlbumNames().contains(albumName) && getAlbumPhotos(albumName).contains(photoName)) {
 			Path photoPath = Paths.get(Application.STORAGE_FOLDER.getAbsolutePath()).resolve(albumName)
@@ -122,7 +117,7 @@ public class PhotosController {
 
 	private List<String> getAlbumPhotos(String albumName) {
 		File albumFolder = new File(Application.STORAGE_FOLDER.getAbsolutePath(),
-				albumName + File.separator + SIZE.ORIGINAL);
+				albumName + File.separator + SIZE.MIN);
 		if (!albumFolder.isDirectory()) {
 			return new ArrayList<>(0);
 		}

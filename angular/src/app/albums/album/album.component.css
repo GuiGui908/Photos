@@ -5,6 +5,7 @@
     border-radius: 10px;
     padding: 5px;
     cursor: default;
+    text-align: center;
 }
 
 .photoMin img {

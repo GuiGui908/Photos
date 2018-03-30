@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/switchMap';
@@ -42,6 +42,12 @@ export class AlbumService {
       .subscribe((photos: string[]) => {
         this.photosSubject.next(photos);
       });
+  }
+
+  compressAlbum(albumName: string): void {
+    this.http
+      .get<string[]>(`${environment.backUrl}/album/compress/${albumName}`)
+      .subscribe(() => alert('L\'album ' + albumName + ' a ete compresse.'));
   }
 
   resetPhotoList(): void {
