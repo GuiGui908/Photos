@@ -111,6 +111,8 @@ public class PhotosController {
 				.filter(file -> file.isDirectory())
 				// Get the name for each file
 				.map(File::getName)
+				// Trie la liste dans l'ordre naturel
+				.sorted()
 				// collect the output and convert streams to a List
 				.collect(Collectors.toList());
 	}

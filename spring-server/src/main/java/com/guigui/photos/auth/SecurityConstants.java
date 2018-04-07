@@ -2,8 +2,8 @@ package com.guigui.photos.auth;
 
 public class SecurityConstants {
 
-	// Expiration du oken (1 heure)
-	public static final long EXPIRATION_TIME = 31_536_000_000L;// 3_600_000;
+	// Expiration du token (1 heure)
+	public static final long EXPIRATION_TIME = 3_600_000L;// 3_600_000;
 
 	public static final String HEADER_STRING = "Authorization";
 
