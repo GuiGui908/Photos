@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guigui.photos.Application;
+import com.guigui.photos.model.Album;
 import com.guigui.photos.service.ImageReduceService;
 import com.guigui.photos.service.PhotoServicesException;
 import com.guigui.photos.service.SIZE;
@@ -41,13 +42,16 @@ public class PhotosController {
 	private ImageReduceService imageReduce;
 
 	@RequestMapping(value = "/allAlbums", method = RequestMethod.GET)
-	public List<String> allAlbums() {
+	public List<Album> allAlbums() {
 		List<String> fileNames = getAlbumNames();
 
 		// Affiche les noms trouvés
-		fileNames.forEach(System.out::print);
+		//fileNames.forEach(System.out::print);
 
-		return fileNames;
+		List<Album> albums = fileNames.stream().map(a -> new Album(a, getAlbumPhotos(a).size()))
+				.collect(Collectors.toList());
+
+		return albums;
 	}
 
 	@RequestMapping(value = "/album/compress/{albumName}", method = RequestMethod.GET)
@@ -77,7 +81,8 @@ public class PhotosController {
 		List<String> fileNames = getAlbumPhotos(albumName);
 
 		// Affiche les noms trouvés
-		fileNames.forEach(System.out::print);
+		//fileNames.forEach(System.out::print);
+		System.out.println("Affiche l'album " + albumName);
 
 		return ResponseEntity.ok(fileNames);
 	}
@@ -89,7 +94,6 @@ public class PhotosController {
 		if (getAlbumNames().contains(albumName) && getAlbumPhotos(albumName).contains(photoName)) {
 			Path photoPath = Paths.get(Application.STORAGE_FOLDER.getAbsolutePath()).resolve(albumName)
 					.resolve(size.toString()).resolve(photoName);
-			System.out.println("try to get photo " + photoPath);
 			try (FileInputStream is = new FileInputStream(photoPath.toFile())) {
 				return ResponseEntity.ok(IOUtils.toByteArray(is));
 			} catch (FileNotFoundException e) {

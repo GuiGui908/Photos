@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/do';
@@ -32,6 +32,7 @@ export class TokenInterceptor implements HttpInterceptor {
                     this.router.navigate(['/login']);
                 }
             }
+            console.error('Interceptor get error HTTP ' + err.status + ' : ', err.error);
         });
     }
 }

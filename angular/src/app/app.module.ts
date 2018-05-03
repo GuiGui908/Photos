@@ -6,7 +6,6 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
-import { DiapoComponent } from './albums/diapo/diapo.component';
 import { AlbumsComponent } from './albums/albums.component';
 import { AlbumComponent } from './albums/album/album.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -29,7 +28,6 @@ import { PhotoComponent } from './albums/photo/photo.component';
     AppComponent,
     LoginComponent,
     HomeComponent,
-    DiapoComponent,
     AlbumsComponent,
     AlbumComponent,
     NotFoundComponent,

@@ -1,5 +1,6 @@
 .back {
-    margin-right: 30px;
+    color: blue;
+	margin-right: 30px;
     padding: 5px;
     cursor: pointer;
 }
@@ -8,7 +9,7 @@
     position: fixed;
     top: 0;
     border-bottom: 2px solid darkblue;
-    margin-top: 18px;
+    margin-top: 21px;
     margin-bottom: 15px;
     z-index: 1;
     background-color: white;
@@ -17,12 +18,24 @@
 .title h1 {
     color: blue;
     margin: 0;
-}
-
-.title h1 .badge {
-    transform: translate(20px, -2px);
+    display: inline;
 }
 
 .badge {
-    font-size: 0.6em;
+    transform: translate(20px, -2px);
+    font-size: 1.2em;
+    margin-top: -10px;
 }
+
+img {
+    color: blue;
+	margin-left: 30px;
+	margin-top: -13px;
+	cursor: pointer
+}
+
+.mat-progress-spinner {
+    display: inline;
+	margin-left: 30px;
+}
+

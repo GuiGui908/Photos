@@ -11,8 +11,8 @@ import { LoginService } from './login.service';
     <div class="row">
       <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-lg-4 col-lg-offset-4">
         <form class="pageMessage login" [formGroup]="form" (ngSubmit)="onSubmit()">
-          <h1>Mon album photo en ligne !</h1>
-          <mat-form-field style="display: none;">
+          <h1>Notre album photo en ligne !</h1>
+          <mat-form-field>
             <input type="text" matInput placeholder="Login" formControlName="username" />
             <mat-error *ngIf="username.hasError('required')">
               <strong>Obligatoire</strong>
@@ -26,7 +26,7 @@ import { LoginService } from './login.service';
             </mat-error>
           </mat-form-field>
           <div>
-            <button type="submit" [disabled]="logingInProgress" class="submitButton" mat-raised-button color="primary">Connection</button>
+            <button type="submit" [disabled]="logingInProgress" class="submitButton" mat-raised-button color="primary">Connexion</button>
           </div>
           <div class="errorMessage">{{errorMessage}}</div>
         </form>
@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     console.log('----- Init LoginComponent');
     this.password = new FormControl('', Validators.required);
-    this.username = new FormControl('anonyme', Validators.required);
+    this.username = new FormControl('mariage', Validators.required);
     this.form = this.fb.group({
       password: this.password,
       username: this.username

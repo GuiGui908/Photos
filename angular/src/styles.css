@@ -1,19 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
 body {
-    font-size: 14px;
+	font-size: 14px;
 }
 
 .pageMessage {
-    padding: 30px;
-    margin-top: 10px;
-    border: 1px solid black;
-    border-radius: 10px;
+	padding: 30px;
+	margin-top: 10px;
+	border: 1px solid black;
+	border-radius: 10px;
 }
 
 .center {
-    text-align: center;
-    margin: 0 auto;
+	text-align: center;
+	margin: 0 auto;
+}
+
+/* Smallest devices (phones, 768px and lower) */
+h1 { font-size: 2rem; }
+/* Medium devices (tablets, 768px and up) */
+@media ( min-width : 768px) {
+	h1 {
+		font-size: 36px;
+	}
 }

@@ -11,6 +11,6 @@ export class PhotoPipe implements PipeTransform {
     constructor(private albumService: AlbumService) { }
 
     transform(photoName: string, albumName: string, size: SIZE): Observable<string> {
-        return this.albumService.findPhoto(photoName, albumName, size);
+        return this.albumService.findPhoto(albumName, photoName, size);
     }
 }

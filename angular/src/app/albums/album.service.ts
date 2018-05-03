@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Album } from './album/album';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/switchMap';
@@ -17,7 +18,7 @@ export enum SIZE {
 export class AlbumService {
 
 
-  private albumsSubject = new BehaviorSubject<string[]>(null);
+  private albumsSubject = new BehaviorSubject<Album[]>(null);
   albumsState = this.albumsSubject.asObservable();
 
   private photosSubject = new BehaviorSubject<string[]>(null);
@@ -30,8 +31,8 @@ export class AlbumService {
 
   findAlbumList(): void {
     this.http
-      .get<string[]>(`${environment.backUrl}/allAlbums`)
-      .subscribe((albums: string[]) => {
+      .get<Album[]>(`${environment.backUrl}/allAlbums`)
+      .subscribe((albums: Album[]) => {
         this.albumsSubject.next(albums);
       });
   }
@@ -54,7 +55,7 @@ export class AlbumService {
     this.photosSubject.next(null);
   }
 
-  findPhoto(photoName: string, albumName: string, size: SIZE): Observable<any> {
+  findPhoto(albumName: string, photoName: string, size: SIZE): Observable<any> {
     const httpOptions = {
       responseType: 'blob' as 'blob'
     };

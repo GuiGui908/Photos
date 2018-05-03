@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
-import { DiapoComponent } from './albums/diapo/diapo.component';
 import { LoginComponent } from './login/login.component';
 import { AlbumComponent } from './albums/album/album.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -22,7 +21,7 @@ const routes: Routes = [
           {
             path: ':albumName', children: [
               { path: 'back', redirectTo: '/home/albums' },
-              { path: ':photoName', canActivate: [AuthGuard], component: DiapoComponent },
+//              { path: ':photoName', canActivate: [AuthGuard], component: DiapoComponent },
               { path: '', canActivate: [AuthGuard], component: AlbumComponent },
             ]
           },

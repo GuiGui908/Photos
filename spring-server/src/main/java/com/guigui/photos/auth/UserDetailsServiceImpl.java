@@ -17,10 +17,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) {
 		String password = "";
 
-		System.out.println("loadUserByUsername(" + username + "); anonyme/guigui ou admin/toornimda ou **/default");
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
-			if ("anonyme".equals(username)) {
+			if ("mariage".equals(username)) {
 				password = new String(Hex.encodeHex(md.digest("guigui".getBytes())));
 			} else if ("admin".equals(username)) {
 				password = new String(Hex.encodeHex(md.digest("toornimda".getBytes())));
