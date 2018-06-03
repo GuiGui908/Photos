@@ -17,7 +17,7 @@ import {Subscription} from 'rxjs/Subscription';
         <a [routerLink]="[alb.name]" mat-raised-button color="primary" (click)="resetPhotoList()">{{alb.name}}
           <span class="badge">{{alb.size}}</span>
         </a>
-        <a [hidden]="true" (click)="compressAlbum(alb.name)">Comprimer {{alb}}</a>
+        <a [hidden]="true" (click)="compressAlbum(alb.name)">Comprimer {{alb.name}}</a>
       </div>
     </div>
   `,

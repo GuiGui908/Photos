@@ -34,8 +34,8 @@ import com.guigui.photos.service.SIZE;
  * @author GuiGui
  *
  */
-@CrossOrigin(origins = "http://lalainaetguillaume.zapto.org/ng")
 @RestController
+@RequestMapping(value = "/api")
 public class PhotosController {
 
 	@Autowired
@@ -46,7 +46,7 @@ public class PhotosController {
 		List<String> fileNames = getAlbumNames();
 
 		// Affiche les noms trouvés
-		//fileNames.forEach(System.out::print);
+		// fileNames.forEach(System.out::print);
 
 		List<Album> albums = fileNames.stream().map(a -> new Album(a, getAlbumPhotos(a).size()))
 				.collect(Collectors.toList());
@@ -81,7 +81,8 @@ public class PhotosController {
 		List<String> fileNames = getAlbumPhotos(albumName);
 
 		// Affiche les noms trouvés
-		//fileNames.forEach(System.out::print);
+		// fileNames.forEach(System.out::print);
+
 		System.out.println("Affiche l'album " + albumName);
 
 		return ResponseEntity.ok(fileNames);

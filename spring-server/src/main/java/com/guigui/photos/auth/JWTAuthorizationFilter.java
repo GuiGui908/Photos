@@ -72,7 +72,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			}
 
 			if (user != null) {
-				System.out.println("User " + user + " loggedIn.");
+				// System.out.println(user + " sent a valid JWT token.");
 				return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
 			}
 			return null;

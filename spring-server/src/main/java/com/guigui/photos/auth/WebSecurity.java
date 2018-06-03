@@ -1,6 +1,6 @@
 package com.guigui.photos.auth;
 
-import static com.guigui.photos.auth.SecurityConstants.SIGN_UP_URL;
+import static com.guigui.photos.auth.SecurityConstants.PUBLIC_URLS;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -24,7 +24,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+		http.cors().and().csrf().disable().authorizeRequests().antMatchers(HttpMethod.GET, PUBLIC_URLS).permitAll()
 				.anyRequest().authenticated().and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
 				.addFilter(new JWTAuthorizationFilter(authenticationManager()))
 				// this disables session creation on Spring Security

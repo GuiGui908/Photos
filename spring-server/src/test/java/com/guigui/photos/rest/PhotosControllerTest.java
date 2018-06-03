@@ -50,7 +50,7 @@ public class PhotosControllerTest {
 				.andExpect(status().isUnauthorized());
 
 		// Success
-		postData.put("sha1Password", "b81d9d756d5930ce7004a794df01196c26c77e0e");
+		postData.put("mariage", "b81d9d756d5930ce7004a794df01196c26c77e0e");
 		this.mockMvc
 				.perform(post("/login").contentType(MediaType.APPLICATION_JSON)
 						.content(JSONObject.toJSONString(postData)))

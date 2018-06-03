@@ -12,5 +12,5 @@ public class SecurityConstants {
 	public static final String TOKEN_PREFIX = "Bearer ";
 
 	// Cette URL est publique, les autres sont filtrées
-	public static final String SIGN_UP_URL = "/public";
+	public static final String[] PUBLIC_URLS = { "/public", "/*.html", "/*.css", "/*.js" };
 }

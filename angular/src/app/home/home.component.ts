@@ -6,7 +6,7 @@ import { LoginService } from '../login/login.service';
   selector: 'app-home',
   template: `
     <div class="topMenu">
-      <a mat-raised-button [routerLink]="['albums']">Albums</a>
+      <a  mat-raised-button color="accent" [routerLink]="['albums']">Albums</a>
       <a mat-raised-button *ngIf="false" [routerLink]="['autre']">Autre</a>
       <img src="assets/ic_power_settings_new_red_24px.svg" style="float: right; cursor: pointer;"
            (click)="logout()" title="Se déconnecter"/>
