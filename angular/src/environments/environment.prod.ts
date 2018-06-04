@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backUrl: 'http://lalainaetguillaume.zapto.org/api'
+  backUrl: 'https://lalainaetguillaume.zapto.org/ng/api'
 };
