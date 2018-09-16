@@ -1,0 +1,71 @@
+ASTUCE :
+	La commande "winpty" est TRES utile !! Ca debloque certaines commandes linux.
+	Par exemple celles qui ont besoin de la souris pour generer du random!!
+
+
+Commandes pour générer la clé et un certificat Racine
+https://medium.freecodecamp.org/how-to-get-https-working-on-your-local-development-environment-in-5-minutes-7af615770eec
+
+Génère un certificat dont guigui est l'autorité de certification et raspberry est le site web certifié.
+Pour que ça apparaisse en Vert dans Firefox, il faut ajouter le keystore (keystore.p12) dans les certificats (mdp = guigui),
+Puis pour que le certificat soit vérifié, il faut ajouter l'autorité de certif (guigui_CA.pem) dans les Autorités trustées.
+
+// génère la clé privée pour l'autorité de certification
+$ openssl genrsa -out guigui_private.key 2048
+Generating RSA private key, 2048 bit long modulus
+...+++
+.........+++
+e is 65537 (0x10001)
+
+// Fichier de conf qui donne les infos du certificat.
+$ cat guigui.csr.cnf
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=FR
+ST=PACA
+L=Marseille
+O=GuiGui
+OU=.
+emailAddress=guigui908b@gmail.com
+CN = lalainaetguillaume.zapto.org
+
+// Crée le certificat de l'autorité de certification. C'est ça qui doit être ajouté dans le TrustStore (la liste des sites de confiance)
+$ openssl req -x509 -new -nodes -key guigui_private.key -sha256 -days 2048 -config guigui.csr.cnf -out guigui_CA.pem
+
+// Crée le certificat du serveur à protéger
+$ openssl req -new -sha256 -nodes -out raspberry.csr -newkey rsa:2048 -keyout raspberry_private.key -config raspberry.csr.cnf
+Generating a 2048 bit RSA private key
+.......+++
+.......+++
+writing new private key to 'raspberry_private.key'
+-----
+
+
+// Fichier de configuration de la signature
+$ cat signature.cnf
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = lalainaetguillaume.zapto.org
+
+
+// L'autorité de certification signe le certificat avec sa clé privée
+$ openssl x509 -req -in raspberry.csr -CA guigui_CA.pem -CAkey guigui_private.key -CAcreateserial -out raspberry.crt -days 2048 -sha256 -extfile signature.cnf
+Signature ok
+subject=/C=FR/ST=PACA/L=Marseille/O=Raspberry/OU=PI3/emailAddress=guigui908b@gmail.com/CN=lalainaetguillaume.zapto.org
+Getting CA Private Key
+
+// On ajoute le certificat signé dans un keystore (un fichier de stockage de certificats)
+// Mot de passe : guigui
+$ winpty openssl pkcs12 -export -in raspberry.crt -inkey raspberry_private.key -out keystore.p12
+Enter Export Password:
+Verifying - Enter Export Password:
+

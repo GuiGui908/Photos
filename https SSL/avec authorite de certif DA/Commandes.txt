@@ -1,0 +1,161 @@
+EXPLICATIONS :  (cette version ne marche pas...)
+==========================================================================================
+Commandes pour générer un certificat (crt) et un keystore (p12) contenant ce certificat.
+Les clés utilisées utilisent la crypto elliptique =======> DONC CA NE MARCHE PAS... IL MANQUE UN TRUC (le paramètre de la courbe?) CE QUI FAIT QUE LA VERIFICATION DE LA SIGNATURE ECHOUE
+Bon site : https://www.kinamo.fr/fr/support/faq/commandes-openssl-utiles
+Bon post :
+	https://www.developpez.net/forums/d746599/java/general-java/ssl-keystore-ca-marche/#post4320103
+	Salut,
+
+	SSL est basé sur la cryptographie à clef publique et les PKI (Public Key Infrastructure). La pièce maîtresse des PKI est le certificat.
+	Qu'est-ce qu'un certificat ? C#est simplement un fichier qui contient une clef publique et l'identité de son propriétaire, le tout signé
+	pour éviter d'être falsifié. Je fais en gros mais je t'invite à te renseigner plus avant sur le sujet si tu veux en savoir plus.
+	Bref un certificat peut être échangé avec n'importe qui et c'est son but.
+	Un certificat SSL dit : salut je suis la clef publique et mon propriétaire est www.plop.org.
+	Qu'est-ce qu'un keystore ? C'est simplement comme son nom l'indique un magasin de clefs (publiques et/ou privées).
+	En Java tu les utilises pour crypter, décrypter grâce à des algortihmes tel RSA. Et un truststore ? Ben c'est un keystore
+	qui contient les clefs publiques des hôtes et/ou CA (Certification Authority) de confiance. Par exemple si tu veux faire une
+	connexion SSL avec www.plop.org, il te faudra faire confiance à ce certificat (ou à son signataire, ou au signataire du signataire, etc etc...),
+	c'est ce que l'on appelle la chaine de certificats.
+
+	Donc en résumé : un client doit avoir dans son truststore de quoi faire confiance au server. Et le server doit avoir dans son keystore
+	la clef privée permettant de signer ce qu'il envoit, et l''échange de la clef de session SSL (Mais je vais pas décrire le protocole SSL ici)
+
+	Pour corriger une erreur : un certificat ne contient aucune keystore, mais peut être importé dans un keystore. l'outil keytools
+	génère des clefs aléatoirement quand tu le lui demandes et permet d'exporter la clef publique dans un certificat, ou d'importer des
+	certificats pour utiliser sa clef publique et/ou lui faire confiance.
+
+	Alors ton keystore server qui contient la clef privée doit être sécurisé par un mot de passe, car quiconque connaissant la clef privée pourra:
+	1/ tenter de se faire passer pour ton server -> pas glop
+	2/ décrypter lors de l'échange de clef à l'établissement de la session SSL la clef de session et donc par la suite décrypter tout conversation -> pas glop du tout non plus
+	3/ signer des messages se revendiquant de ton server et donc à qui tu feras confiance (ce qui revient à 1 en fait, mais jamais deux points sans trois)
+
+	Les enjeux derrière tout cela, sur la nécessité de bien gérer sa PKI (avec CRL notamment) avec ses certificats pour une diffusion à grande échelle,
+	je ne le discuterai pas ici, mais je ne saurai que te conseiller de jeter un oeil là dessus
+
+	Amsue toi bien 
+==========================================================================================
+
+
+
+
+COMMANDES :
+==========================================================================================
+// 1. Paramètres de la courbe elliptique pour générer la clé privée
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ openssl ecparam -name secp256k1 -out sopra_keyparam.pem
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ openssl ecparam -name secp256k1 -out DME_keyparam.pem
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ cat sopra_keyparam.pem
+-----BEGIN EC PARAMETERS-----
+BgUrgQQACg==
+-----END EC PARAMETERS-----
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ cat DME_keyparam.pem
+-----BEGIN EC PARAMETERS-----
+BgUrgQQACg==
+-----END EC PARAMETERS-----
+
+
+// 2. Clés privées (une pour Sopra : l'autorité de certification et une pour DME : le serveur sur lequel sera déposé le certificat)
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ openssl ecparam -in sopra_keyparam.pem -genkey -noout -out sopra_privatekey.pem
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ openssl ecparam -in DME_keyparam.pem -genkey -noout -out DME_privatekey.pem
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ cat sopra_privatekey.pem
+-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIOri+cjm6t86VS210EqQZg2M96vDSIukvaehali69HJ3oAcGBSuBBAAK
+oUQDQgAEmFggEZwpj8qqgrVySJ2gfDh475eGxlhxK2HIZwDXUNWP+okLU0uecJp9
+KrpK7Njx4kxL8XBEFC0GVqBJ4BOQ/w==
+-----END EC PRIVATE KEY-----
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ cat DME_privatekey.pem
+-----BEGIN EC PRIVATE KEY-----
+MHQCAQEEIEXtKCY5oLSDS+5YpReAw26sxLLIYZs+oI2DyEMjcephoAcGBSuBBAAK
+oUQDQgAEVtEwtta23EOel75Mhdf1QNa70ujN95TFxTS10k+1pAVRlh2xrEJrxEYw
+x1Tp7pTFZ3plRQbqILMWV+33a6RMoA==
+-----END EC PRIVATE KEY-----
+
+
+
+// 3. Conf des 2 certificats : Cela permettra d'afficher dans le certificat : Emis par "Sopra" pour "DME".
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ cat sopra_csr.cnf
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=FR
+ST=PACA
+L=Aix-En-Provence
+O=Sopra Steria
+OU=123 IDEA
+emailAddress=guillaume.bert@soprasteria.com
+CN=soprasteria.com
+
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ cat DME_csr.cnf
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=FR
+ST=PACA
+L=Aix-En-Provence
+O=DME
+OU=N/A
+emailAddress=guillaume.bert@soprasteria.com
+CN=slnxdavm02.ptx.fr.sopra
+
+
+
+// 4. Génération du certificat de Sopra
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ winpty openssl req -x509 -new -nodes -key sopra_privatekey.pem -sha256 -days 2048 -config sopra_csr.cnf -out sopra_CA.pem
+
+
+// 5. Génération du certificat de DME à partir de celui de Sopra
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ winpty openssl req -new -nodes -key DME_privatekey.pem -sha256 -config DME_csr.cnf -out DME.csr
+
+
+// 6. Signature du certificat de DME avec la clé privée de Sopra
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ cat signature.cnf
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = slnxdavm2.ptx.fr.sopra
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ winpty openssl x509 -req -in DME.csr -CA sopra_CA.pem -CAkey sopra_privatekey.pem -CAcreateserial -days 2048 -sha256 -extfile signature.cnf -out DME.crt
+Signature ok
+subject=/C=FR/ST=PACA/L=Aix-En-Provence/O=DME/OU=N/A/emailAddress=guillaume.bert@soprasteria.com/CN=slnxdavm02.ptx.fr.sopra
+Getting CA Private Key
+
+
+// 7. Créer un nouveau keystore et y ajouter un certificat (MdP : le mot de passe est : guigui)
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/vrai
+$ winpty openssl pkcs12 -export -in DME.crt -inkey DME_privatekey.pem -out DME_keystore.p12
+Enter Export Password:
+Verifying - Enter Export Password:
+
+==========================================================================================
