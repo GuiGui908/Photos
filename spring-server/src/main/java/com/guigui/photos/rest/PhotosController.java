@@ -16,13 +16,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.guigui.photos.Application;
+import com.guigui.photos.model.Album;
 import com.guigui.photos.service.ImageReduceService;
 import com.guigui.photos.service.PhotoServicesException;
 import com.guigui.photos.service.SIZE;
@@ -33,21 +33,24 @@ import com.guigui.photos.service.SIZE;
  * @author GuiGui
  *
  */
-@CrossOrigin(origins = "http://lalainaetguillaume.zapto.org/ng")
 @RestController
+@RequestMapping(value = "/api")
 public class PhotosController {
 
 	@Autowired
 	private ImageReduceService imageReduce;
 
 	@RequestMapping(value = "/allAlbums", method = RequestMethod.GET)
-	public List<String> allAlbums() {
+	public List<Album> allAlbums() {
 		List<String> fileNames = getAlbumNames();
 
 		// Affiche les noms trouvés
-		fileNames.forEach(System.out::print);
+		// fileNames.forEach(System.out::print);
 
-		return fileNames;
+		List<Album> albums = fileNames.stream().map(a -> new Album(a, getAlbumPhotos(a).size()))
+				.collect(Collectors.toList());
+
+		return albums;
 	}
 
 	@RequestMapping(value = "/album/compress/{albumName}", method = RequestMethod.GET)
@@ -77,7 +80,9 @@ public class PhotosController {
 		List<String> fileNames = getAlbumPhotos(albumName);
 
 		// Affiche les noms trouvés
-		fileNames.forEach(System.out::print);
+		// fileNames.forEach(System.out::print);
+
+		System.out.println("Affiche l'album " + albumName);
 
 		return ResponseEntity.ok(fileNames);
 	}
@@ -89,7 +94,6 @@ public class PhotosController {
 		if (getAlbumNames().contains(albumName) && getAlbumPhotos(albumName).contains(photoName)) {
 			Path photoPath = Paths.get(Application.STORAGE_FOLDER.getAbsolutePath()).resolve(albumName)
 					.resolve(size.toString()).resolve(photoName);
-			System.out.println("try to get photo " + photoPath);
 			try (FileInputStream is = new FileInputStream(photoPath.toFile())) {
 				return ResponseEntity.ok(IOUtils.toByteArray(is));
 			} catch (FileNotFoundException e) {
@@ -111,6 +115,8 @@ public class PhotosController {
 				.filter(file -> file.isDirectory())
 				// Get the name for each file
 				.map(File::getName)
+				// Trie la liste dans l'ordre naturel
+				.sorted()
 				// collect the output and convert streams to a List
 				.collect(Collectors.toList());
 	}

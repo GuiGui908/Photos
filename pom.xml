@@ -12,6 +12,12 @@
 	<name>Angular Spring Boot Parent</name>
 	<description>pom parent</description>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.10.RELEASE</version>
+	</parent>
+
 	<modules>
 		<module>angular</module>
 		<module>spring-server</module>

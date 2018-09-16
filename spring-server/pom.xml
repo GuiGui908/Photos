@@ -3,16 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.springframework</groupId>
-	<artifactId>gs-rest-service</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<artifactId>spring-server</artifactId>
 	<packaging>war</packaging>
 	<name>spring-server</name>
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.10.RELEASE</version>
+		<groupId>com.guigui</groupId>
+		<artifactId>angular-spring-boot</artifactId>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -83,7 +81,7 @@
 				<configuration>
 					<webResources>
 						<resource>
-							<directory>../angular/dist</directory>
+							<directory>../angular/src/main/resources/dist</directory>
 						</resource>
 					</webResources>
 				</configuration>

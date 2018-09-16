@@ -1,0 +1,26 @@
+NOTICE :
+
+Pour deployer                 :  deploy.sh
+Pour rebooter le raspberry    :  restart.sh
+Pour arrêter le raspberry     :  shutdown.sh
+Pour redémarrer Tomcat        :  restartTomcat.sh
+Pour voir les logs de Tomcat  :  logsTomcat.sh
+
+Pour générer une CSR (Certificate Signing Request) :
+1. Générer une paire de clé privée RSA : keytool -genkey -alias tomcat -keyalg RSA -keystore keystore.p12 -keysize 2048
+2. Générer la CSR : keytool -certreq -alias tomcat -file request.csr -keystore keystore.p12
+
+Pour demander un certificat à Let'sEncrypt :
+    l'option --staging permet de simuler la demande !!!
+    L'outil certbot s'installe avec les packets de dietpi-software 
+	certbot certonly --csr request.csr --staging
+
+	Taper 1
+	Taper 1
+	Taper /var/lib/tomcat8/webapps
+
+	DONE !
+
+Pour ajouter le certificat au keystore : keytool -import -trustcacerts -alias tomcat -file 0000_chain.pem -keystore keystore.p12
+Pour retirer un vieux certificat du keystore : keytool -delete -alias tomcat -keystore keystore.p12
+

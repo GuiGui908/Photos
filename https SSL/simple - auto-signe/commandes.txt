@@ -1,0 +1,34 @@
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/test
+$ cat server.csr.cnf
+[req]
+default_bits = 2048
+prompt = no
+default_md = sha256
+distinguished_name = dn
+
+[dn]
+C=FR
+ST=PACA
+L=Aix-En-Provence
+O=DME
+OU=N/A
+emailAddress=guillaume.bert@soprasteria.com
+CN=slnxdavm02.ptx.fr.sopra
+
+
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/test
+$ openssl req -x509 -newkey rsa:2048 -nodes -days 365 -config server.csr.cnf -keyout server.key -out server.crt
+Generating a 2048 bit RSA private key
+.........................................+++
+..............+++
+writing new private key to 'server.key'
+-----
+
+
+
+Mot de passe : guigui
+GuiGui@DESKTOP-B8STVES MINGW64 /d/Documents/Mariage/AngularSpringBoot/https SSL/DA/test
+$ winpty openssl pkcs12 -export -in server.crt -inkey server.key -out keystore.p12
+Enter Export Password:
+Verifying - Enter Export Password:
+

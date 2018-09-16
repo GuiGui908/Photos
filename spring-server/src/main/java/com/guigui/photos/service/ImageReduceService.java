@@ -10,14 +10,8 @@ import javax.imageio.ImageIO;
 
 import org.springframework.stereotype.Service;
 
-import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
-import com.drew.metadata.exif.ExifIFD0Directory;
 import com.guigui.photos.Application;
-import com.guigui.photos.service.ImageUtils.ImageInformation;
 
 @Service
 public class ImageReduceService {
@@ -126,11 +120,15 @@ public class ImageReduceService {
 			int targetHeight = (int) (originalHeight * smallestScale);
 
 			// Récupère l'orientation de l'image
-			Metadata metadata = ImageMetadataReader.readMetadata(_originalPhoto);
-			Directory directory = metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
-			int orientation = directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
-
-			ImageInformation originalPhotoInfos = new ImageInformation(orientation, targetWidth, targetHeight);
+			// Metadata metadata =
+			// ImageMetadataReader.readMetadata(_originalPhoto);
+			// Directory directory =
+			// metadata.getFirstDirectoryOfType(ExifIFD0Directory.class);
+			// int orientation =
+			// directory.getInt(ExifIFD0Directory.TAG_ORIENTATION);
+			//
+			// ImageInformation originalPhotoInfos = new
+			// ImageInformation(orientation, targetWidth, targetHeight);
 
 			// Crée l'image de la taille désirée
 			BufferedImage imgSmaller = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
@@ -150,10 +148,11 @@ public class ImageReduceService {
 
 		} catch (IOException e) {
 			throw new PhotoServicesException(e.getMessage(), e);
-		} catch (ImageProcessingException e) {
-			throw new PhotoServicesException(e.getMessage(), e);
-		} catch (MetadataException e) {
-			throw new PhotoServicesException("Could not get image orientation" + e.getMessage(), e);
+			// } catch (ImageProcessingException e) {
+			// throw new PhotoServicesException(e.getMessage(), e);
+			// } catch (MetadataException e) {
+			// throw new PhotoServicesException("Could not get image
+			// orientation" + e.getMessage(), e);
 		}
 	}
 
