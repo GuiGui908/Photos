@@ -99,7 +99,8 @@ export class AlbumComponent implements OnInit {
     this.namePhotoDiapo[this.nextIdx()] = this.nextPhotoName();
     this.modeDiaporama = true;
     this.dlLink = [this.albumName, photoName, SIZE.ORIGINAL];
-    this.focusInput();
+    // Ne marche pas car sur téléphone, ça fait toujours apparaitre le clavier :(
+    // this.focusInput();
   }
 
   prevIdx() {
